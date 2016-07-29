@@ -1,0 +1,75 @@
+use io
+use vector
+use avltree
+use file
+use hashtable
+use linkedlist
+use class
+lib algorithm
+
+int getNum():
+
+    return 5
+
+void printStuff():
+
+    print "Test stuff"
+
+void printFile():
+
+    IFile f("line.cpp")
+    OFile out("test.txt")
+    printto out f
+
+void testAVL():
+
+    AVLtree<int> tree
+    for(int i = 10; i > 0; i--):
+        tree += i
+    print tree
+
+void testVector():
+
+    Vector<int> nums
+    nums += 5
+    nums += 2
+    print nums
+    nums += 7
+    print nums[2]
+
+    nums.sort()
+    print nums
+
+void testHash():
+
+    HashTable<int, String> hash
+
+    hash.insert(5, String("swag"))
+    hash.insert(6, String("no swag"))
+
+    print hash[6]
+
+    print hash
+
+void testList():
+
+    LinkedList<int> l
+    l.add(5)
+    l.add(2)
+    l.add(3)
+
+    printto OFile("list.txt") l
+
+
+int main():
+
+    print "Hello, World!"
+    print "The DS Language!"
+    printStuff()
+    printFile()
+    testAVL()
+    testVector()
+    testHash()
+    testList()
+    Test t
+    print t.getNum()
