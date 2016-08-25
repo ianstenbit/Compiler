@@ -23,6 +23,7 @@ class String{
 
         int size();
         String substring(int, int);
+        String toLower();
         Vector<String> split();
         char* c_str();
 

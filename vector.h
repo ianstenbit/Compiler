@@ -10,7 +10,7 @@ class Vector{
 
       Vector();
       Vector(int);
-      Vector(Vector<T>&);
+      Vector(const Vector<T>&);
 
       void add(T);
       void add(T, int);
@@ -54,12 +54,12 @@ Vector<T>::Vector(int startCap){
 }
 
 template<class T>
-Vector<T>::Vector(Vector<T>& input){
+Vector<T>::Vector(const Vector<T>& input){
     num_elements = input.num_elements;
     capacity = input.capacity;
     data = new T[capacity];
     for(int i = 0; i < num_elements; i++)
-        data[i] = input[i];
+        data[i] = input.data[i];
 }
 
 template<class T>
@@ -142,6 +142,7 @@ Vector<T>& Vector<T>::operator=(Vector<T>& rhs){
 template<class T>
 Vector<T>& Vector<T>::operator+=(T t){
     add(t);
+    return *this;
 }
 
 

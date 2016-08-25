@@ -17,7 +17,7 @@ class LinkedList{
 
         LinkedList();
         LinkedList(T);
-        LinkedList(LinkedList<T>&);
+        LinkedList(const LinkedList<T>&);
 
         void add(T);
         void addToFront(T);
@@ -52,7 +52,7 @@ LinkedList<T>::LinkedList(T input){
 }
 
 template<class T>
-LinkedList<T>::LinkedList(LinkedList<T>& input){
+LinkedList<T>::LinkedList(const LinkedList<T>& input){
     head = 0;
     Node<T>* tmp = input.head;
     while(tmp){

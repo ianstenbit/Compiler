@@ -107,6 +107,14 @@ String String::substring(int start, int end){
     return s;
 }
 
+String String::toLower(){
+    char* tmp = new char[length];
+    for(int i = 0; i < length; i++)
+        tmp[i] = tolower(data[i]);
+    String s(tmp);
+    return s;
+}
+
 std::ostream& operator<< (std::ostream& os, const String& in){
     os << in.data;
     return os;
