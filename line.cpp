@@ -34,20 +34,7 @@ void Line::translate(){
     original = original.substring(4*indentation, original.size());
     printCheck();
     includesCheck();
-    doForEach();
     indent(indentation);
-}
-
-void Line::doForEach(){
-    if(original.size() > 8 && original.substring(0,8) == String("foreach ")){
-        Vector<String> words = original.split();
-        if(words[4][-1] == ':') words[4] = words[4].substring(0,-1);
-        
-        original = String("if(!") + words[4] + String(".empty()){\n")
-                 + String("do { \n")
-                 + words[1] + String(" ") + words[2] + String(" = ") + words[4]
-                 + "\n}";
-    }
 }
 
 void Line::printCheck(){

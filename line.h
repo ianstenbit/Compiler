@@ -21,7 +21,6 @@ class Line{
         void indent(int);
         void semicolon();
         void translate();
-        void doForEach();
         bool isEmpty();
         String getString();
 
