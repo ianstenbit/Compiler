@@ -27,6 +27,7 @@ class Compiler{
         void translate();
         void writeOutput();
         void processIndentation();
+        void doForEach();
         String nextInputLine();
 
 };

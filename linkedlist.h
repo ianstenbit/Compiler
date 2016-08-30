@@ -24,6 +24,9 @@ class LinkedList{
         T get(int);
         int size();
         T remove(int);
+        T next();
+        bool iterate();
+        bool empty();
 
         ~LinkedList();
 
@@ -32,6 +35,7 @@ class LinkedList{
 
     private:
 
+        Node<T>* iterator;
         Node<T>* head;
         int num_elements;
 
@@ -77,6 +81,25 @@ void LinkedList<T>::add(T input){
     }
 
     num_elements++;
+}
+
+template<class T>
+T LinkedList<T>::next(){
+    return iterator->data;
+}
+
+template<class T>
+bool LinkedList<T>::iterate(){
+    iterator = iterator->next;
+    if(iterator) return true;
+    iterator = head;
+    return false;
+}
+
+
+template<class T>
+bool LinkedList<T>::empty(){
+    return num_elements == 0;
 }
 
 template<class T>

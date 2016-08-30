@@ -15,11 +15,14 @@ class Vector{
       void add(T);
       void add(T, int);
       T get(int);
+      T next();
+      bool iterate();
 
       ~Vector();
 
       int size();
       void sort();
+      bool empty();
 
       T& operator[](int);
       Vector<T>& operator=(Vector<T>&);
@@ -32,6 +35,8 @@ class Vector{
       int num_elements;
       int capacity;
 
+      int iterator;
+
       static const int DEFAULT_CAPACITY = 10;
       static const int RESIZE_FACTOR = 2;
 
@@ -41,6 +46,7 @@ class Vector{
 
 template<class T>
 Vector<T>::Vector(){
+    iterator = 0;
     num_elements = 0;
     capacity = DEFAULT_CAPACITY;
     data = new T[DEFAULT_CAPACITY];
@@ -48,6 +54,7 @@ Vector<T>::Vector(){
 
 template<class T>
 Vector<T>::Vector(int startCap){
+    iterator = 0;
     num_elements = 0;
     capacity = startCap;
     data = new T[startCap];
@@ -55,11 +62,33 @@ Vector<T>::Vector(int startCap){
 
 template<class T>
 Vector<T>::Vector(const Vector<T>& input){
+    iterator = input.iterator;
     num_elements = input.num_elements;
     capacity = input.capacity;
     data = new T[capacity];
     for(int i = 0; i < num_elements; i++)
         data[i] = input.data[i];
+}
+
+template<class T>
+T Vector<T>::next(){
+    return data[iterator];
+}
+
+template<class T>
+bool Vector<T>::iterate(){
+    if(iterator == num_elements){
+        iterator = 0;
+        return false;
+    }
+    iterator++;
+    return true;
+}
+
+
+template<class T>
+bool Vector<T>::empty(){
+    return num_elements == 0;
 }
 
 template<class T>
