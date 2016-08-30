@@ -44,46 +44,24 @@ void Compiler::compile(){
 void Compiler::processIndentation(){
 
     for(int i = 0; i < lines.size(); i++){
-
         if(lines[i][-1] == ':'){
-
-            std::cout << lines[i].getString() << std::endl;
-
             if(lines[i].getString().size() > 6 && lines[i].getString().substring(-8, -1) == String("public:")) continue;
             if(lines[i].getString().size() > 7 && lines[i].getString().substring(-9, -1) == String("private:")) continue;
-            bool is_fe = checkForEach(i);
-            if(!is_fe) lines[i][-1] = '{';
+            lines[i][-1] = '{';
             int index = i;
             int indentation = lines[index++].getIndentation();
-            String string_fe = lines[i].getString();
-            while(index < lines.size() && (lines[index].isEmpty() || lines[index].getIndentation() > indentation)){
-                string_fe = string_fe + lines[index].getString() + String(";");
-                if(is_fe){
-                   lines[index] = Line(String(""));
-                }
-                index++;
-            }
+            while(index < lines.size() && (lines[index].isEmpty() || lines[index].getIndentation() > indentation)) index++;
             String s("}");
             if(lines[i].getString().size() > 6 && lines[i].getString().substring(0, 6) == "class ")
                 s = s + String(";");
-
-            if(is_fe){
-                int m;
-                for(m = 0; m < string_fe.size(); m++) if(string_fe[m] == '}') break;
-                string_fe = string_fe.substring(0,m-1);
-                Line newLine(string_fe.substring(0,-1));
-                lines[i] = newLine;
-                newLine.indent(indentation);
-            } else {
-                Line newLine(s);
-                newLine.indent(indentation);
-                lines.add(newLine, index);
-            }
-
+            Line newLine(s);
+            newLine.indent(indentation);
+            lines.add(newLine, index);
         } else {
             lines[i].semicolon();
         }
     }
+
 }
 
 void Compiler::translate(){
@@ -105,15 +83,4 @@ String Compiler::nextInputLine(){
 
     return s;
 
-}
-
-bool Compiler::checkForEach(int index){
-
-    Vector<String> tokens = lines[index].getString().split();
-    bool found = false;
-    for(int i = 0; i < tokens.size(); i++)
-        if(tokens[i] == String("foreach"))
-            found = true;
-
-    return found;
 }
