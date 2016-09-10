@@ -1,3 +1,11 @@
+/*
+main.cpp
+Ian Johnson
+
+Provides a simple program to accept command-line input for compiling
+code from Script++ to C++ using the Compiler class
+*/
+
 #include "vector.h"
 #include "string.h"
 #include "stack.h"

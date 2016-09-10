@@ -1,3 +1,12 @@
+/*
+ifile.cpp
+Ian Johnson
+
+Provides an interface to a Line class,
+where a line represents a line of code
+in Script++ which will be compiled
+*/
+
 #ifndef LINE
 #define LINE
 

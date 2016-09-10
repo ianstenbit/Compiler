@@ -1,3 +1,10 @@
+/*
+ifile.h
+Ian Johnson
+
+Provides an interface to an ifstream wrapper called iFile
+*/
+
 #ifndef IFILE
 #define IFILE
 

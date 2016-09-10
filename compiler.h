@@ -1,3 +1,12 @@
+/*
+Compiler.h
+Ian Johnson
+September 10, 2016
+
+Provides an interface to a compiler class
+which compiles code from "script ++" to cpp
+*/
+
 #ifndef COMPILER
 #define COMPILER
 
@@ -13,7 +22,6 @@ class Compiler{
     public:
 
         Compiler(char*);
-
         void compile();
 
     private:

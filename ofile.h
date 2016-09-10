@@ -1,3 +1,11 @@
+/*
+ofile.h
+Ian Johnson
+
+Provides an interface to an ofstream wrapper called oFile
+*/
+
+
 #ifndef OFILE
 #define OFILE
 

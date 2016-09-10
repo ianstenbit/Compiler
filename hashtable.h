@@ -1,3 +1,13 @@
+/*
+hashtable.h
+Ian Johnson
+
+Provides an interface and implementation of a
+double-templated hash table in C++.
+
+Collisions are handled by linked-list chaining.
+*/
+
 #ifndef HASH_TABLE
 #define HASH_TABLE
 
@@ -43,6 +53,9 @@ class HashTable{
 
 };
 
+/*
+Default constructor
+*/
 template <class KEY, class VALUE>
 HashTable<KEY, VALUE>::HashTable(){
     data = new LinkedList< std::pair<KEY, VALUE> >[DEFAULT_SIZE];
@@ -52,6 +65,12 @@ HashTable<KEY, VALUE>::HashTable(){
     num_elements = 0;
 }
 
+/*
+Iterator used for custom for-each loops.
+Increments the internal iterator by one item in the map.
+Note: may behave incorrectly if insertion occurs between iterations
+@return: true if there was another element, false if end of map was found
+*/
 template <class KEY, class VALUE>
 bool HashTable<KEY, VALUE>::iterate(){
     if(iterator.second < data[iterator.first].size() - 1){
@@ -69,16 +88,30 @@ bool HashTable<KEY, VALUE>::iterate(){
     }
 }
 
+
+/*
+Part of iterator for custom for-each loops
+Returns the next item in the map using the internal iterator
+@return: A key-value pair representing the next item in the map
+*/
 template <class KEY, class VALUE>
 std::pair<KEY, VALUE> HashTable<KEY, VALUE>::next(){
     return data[iterator.first][iterator.second];
 }
 
+/*
+Checks if the map is empty
+@return: true if the map is empty, else false
+*/
 template <class KEY, class VALUE>
 bool HashTable<KEY, VALUE>::empty(){
     return num_elements == 0;
 }
 
+/*
+Copy constructor
+Conforms to standard C++ STL copy constructor standard
+*/
 template <class KEY, class VALUE>
 HashTable<KEY, VALUE>::HashTable(HashTable<KEY, VALUE>& other){
     data = new LinkedList< std::pair<KEY, VALUE> >[DEFAULT_SIZE];
@@ -90,6 +123,10 @@ HashTable<KEY, VALUE>::HashTable(HashTable<KEY, VALUE>& other){
     }
 }
 
+/*
+Assignment operator
+Conforms to standard C++ STL assignment operator standard
+*/
 template <class KEY, class VALUE>
 HashTable<KEY, VALUE>& HashTable<KEY, VALUE>::operator=(const HashTable<KEY, VALUE>& other){
     data = new LinkedList< std::pair<KEY, VALUE> >[DEFAULT_SIZE];
@@ -102,11 +139,20 @@ HashTable<KEY, VALUE>& HashTable<KEY, VALUE>::operator=(const HashTable<KEY, VAL
     return *this;
 }
 
+
+/*
+Destructor -- frees all data from map
+*/
 template <class KEY, class VALUE>
 HashTable<KEY, VALUE>::~HashTable(){
     delete[] data;
 }
 
+/*
+Inserts a new key/value pair into the map
+@param key: the key of the new value to be inserted
+@param value: the new value to be inserted
+*/
 template <class KEY, class VALUE>
 void HashTable<KEY, VALUE>::insert(KEY key, VALUE value){
     data[hasher(key)%height].add(std::make_pair(key, value));
@@ -114,11 +160,20 @@ void HashTable<KEY, VALUE>::insert(KEY key, VALUE value){
     if(num_elements / height >= CRITICAL_LOAD) rehash();
 }
 
+/*
+Inserts a new key/value pair into the map
+@param pair: a std::pair of the new key and values to add
+*/
 template <class KEY, class VALUE>
 void HashTable<KEY, VALUE>::insert(std::pair<KEY, VALUE> pair){
     insert(pair.first, pair.second);
 }
 
+/*
+Gets the value associated with a given key
+@param key: the key being searched for
+@return: the item associated with key, or null if no such item exists
+*/
 template <class KEY, class VALUE>
 VALUE HashTable<KEY, VALUE>::get(KEY key){
     int index = hasher(key)%height;
@@ -129,36 +184,44 @@ VALUE HashTable<KEY, VALUE>::get(KEY key){
     return NULL;
 }
 
+/*
+Bracket index operator for accessing by key
+Shortcut for .get(key)
+*/
 template <class KEY, class VALUE>
 VALUE HashTable<KEY, VALUE>::operator[](KEY key){
     return get(key);
 }
 
+/*
+Re-hash function which is called when CRITICAL_LOAD is reached
+*/
 template <class KEY, class VALUE>
 void HashTable<KEY, VALUE>::rehash(){
+
+    //calculate new height
     int newHeight = height * RESIZE_FACTOR;
+
+    //Allocate new array of lists
     LinkedList< std::pair<KEY, VALUE> >* tmp = new LinkedList< std::pair<KEY, VALUE> >[newHeight];
+
+    //Perform expensive re-hashing
     for(int i = 0; i < height; i++){
         for(int j = 0; j < data[i].size(); j++){
              tmp[hasher(data[i][j].first)%newHeight].add(data[i][j]);
         }
     }
+
+    //Delete the old and save the new one
     delete[] data;
     data = tmp;
     height = newHeight;
 }
 
-template <class KEY, class VALUE>
-void HashTable<KEY, VALUE>::print(){
-
-    for(int i = 0; i < height; i++){
-        for(int j = 0; j < data[i].size(); j++){
-            std::cout << "[" << data[i][j].first << ", " << data[i][j].second << "]" << std::endl;
-        }
-    }
-
-}
-
+/*
+Overloaded stream insertion operator for printing everything in the table
+Conforms to C++ STL stream insertion operator spec
+*/
 template <class KEY, class VALUE>
 std::ostream& operator<< (std::ostream& os, HashTable<KEY, VALUE> t){
 
