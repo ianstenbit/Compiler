@@ -1,3 +1,10 @@
+/*
+string.h
+Ian Johnson
+
+Provides an interface to a String class
+*/
+
 #ifndef STRING
 #define STRING
 

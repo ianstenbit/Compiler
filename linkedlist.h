@@ -1,8 +1,19 @@
+/*
+linkedlist.h
+Ian Johnson
+
+Provides an interface and implementation for a templated
+singly-linked list. Includes head pointer only
+*/
+
 #ifndef LINKED_LIST
 #define LINKED_LIST
 
 #include <iostream>
 
+/*
+Node structure for singly-lined list
+*/
 template <class T>
 struct Node{
   Node<T>* next;
@@ -37,12 +48,19 @@ class LinkedList{
 
 };
 
+/*
+Default constructor
+*/
 template<class T>
 LinkedList<T>::LinkedList(){
     head = 0;
     num_elements = 0;
 }
 
+/*
+Constructor which accepts a first element
+@param input: the first element to put at the head of the list
+*/
 template<class T>
 LinkedList<T>::LinkedList(T input){
     head = new Node<T>();
@@ -51,6 +69,9 @@ LinkedList<T>::LinkedList(T input){
     num_elements = 1;
 }
 
+/*
+Copy Constructor
+*/
 template<class T>
 LinkedList<T>::LinkedList(const LinkedList<T>& input){
     head = 0;
@@ -62,6 +83,10 @@ LinkedList<T>::LinkedList(const LinkedList<T>& input){
     num_elements = input.num_elements;
 }
 
+/*
+Adds an element to the tail of the list
+@param input: the element to add to the tail of the list
+*/
 template<class T>
 void LinkedList<T>::add(T input){
     Node<T>* tmp = new Node<T>();
@@ -79,6 +104,10 @@ void LinkedList<T>::add(T input){
     num_elements++;
 }
 
+/*
+Adds an element to the front of the list
+@param input: the item to add to the head of the list
+*/
 template<class T>
 void LinkedList<T>::addToFront(T input){
     Node<T>* tmp = new Node<T>();
@@ -89,6 +118,10 @@ void LinkedList<T>::addToFront(T input){
 }
 
 
+/*
+Removes an element from a given index in the list
+@param index: the index from which to remove the element
+*/
 template<class T>
 T LinkedList<T>::remove(int index){
 
@@ -112,6 +145,10 @@ T LinkedList<T>::remove(int index){
 
 }
 
+/*
+Get the item at a given index
+@param index: the index of the item to return
+*/
 template<class T>
 T LinkedList<T>::get(int index){
     Node<T>* tmp = head;
@@ -119,11 +156,18 @@ T LinkedList<T>::get(int index){
     return tmp->data;
 }
 
+/*
+Gets the number of elements in the list
+@return: the number of elements in the list
+*/
 template<class T>
 int LinkedList<T>::size(){
     return num_elements;
 }
 
+/*
+Assignment operator
+*/
 template<class T>
 LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>& input){
     head = 0;
@@ -136,6 +180,9 @@ LinkedList<T>& LinkedList<T>::operator=(LinkedList<T>& input){
     return *this;
 }
 
+/*
+Bracket access operator -- syntax sugar for .get(index)
+*/
 template<class T>
 T& LinkedList<T>::operator[](int index){
     Node<T>* tmp = head;
@@ -143,6 +190,9 @@ T& LinkedList<T>::operator[](int index){
     return tmp->data;
 }
 
+/*
+Destructor
+*/
 template<class T>
 LinkedList<T>::~LinkedList(){
     Node<T>* tmp = head;
@@ -156,7 +206,8 @@ LinkedList<T>::~LinkedList(){
 
 
 /*
-This is N^2. Can be done in linear time
+Stream insertion operator for printing list
+This is N^2. Can be done in linear time. Just threw this together
 */
 template<class T>
 std::ostream& operator<< (std::ostream& os, LinkedList<T>& L){

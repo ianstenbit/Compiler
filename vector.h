@@ -1,3 +1,8 @@
+/*
+vector.h
+Ian Johnson
+*/
+
 #ifndef VECTOR
 #define VECTOR
 
@@ -39,6 +44,9 @@ class Vector{
 
 };
 
+/*
+Default constructor
+*/
 template<class T>
 Vector<T>::Vector(){
     num_elements = 0;
@@ -46,6 +54,9 @@ Vector<T>::Vector(){
     data = new T[DEFAULT_CAPACITY];
 }
 
+/*
+Constructor which accepts initial capacity
+*/
 template<class T>
 Vector<T>::Vector(int startCap){
     num_elements = 0;
@@ -53,6 +64,9 @@ Vector<T>::Vector(int startCap){
     data = new T[startCap];
 }
 
+/*
+Copy constructor
+*/
 template<class T>
 Vector<T>::Vector(const Vector<T>& input){
     num_elements = input.num_elements;
@@ -62,12 +76,21 @@ Vector<T>::Vector(const Vector<T>& input){
         data[i] = input.data[i];
 }
 
+/*
+Adds a new item to the tail of the vector
+@param newItem: the item to add to the tail of the vector
+*/
 template<class T>
 void Vector<T>::add(T newItem){
     if(num_elements == capacity) resize();
     data[num_elements++] = newItem;
 }
 
+/*
+Adds a new item to a given index in the list
+@param newItem: the item to add
+@param index: the location to add the new item
+*/
 template<class T>
 void Vector<T>::add(T newItem, int index){
 
@@ -81,21 +104,35 @@ void Vector<T>::add(T newItem, int index){
     num_elements++;
 }
 
+/*
+Gets a specified element in the Vector
+@param index: the index of the item to get
+*/
 template<class T>
 T Vector<T>::get(int index){
     return data[index];
 }
 
+/*
+Destructor
+*/
 template<class T>
 Vector<T>::~Vector(){
     delete[] data;
 }
 
+/*
+Returns the number of elements in the vector
+@return: the number of elements in the vector
+*/
 template<class T>
 int Vector<T>::size(){
     return num_elements;
 }
 
+/*
+Performs an in-place bubble sort of the vector
+*/
 template<class T>
 void Vector<T>::sort(){
     bool sorted = false;
@@ -112,6 +149,10 @@ void Vector<T>::sort(){
     }
 }
 
+/*
+Internal (private) method for re-sizing
+Copies array into new array, double the size
+*/
 template<class T>
 void Vector<T>::resize(){
 
@@ -123,11 +164,19 @@ void Vector<T>::resize(){
 
 }
 
+/*
+Wrapper operator for .get method
+Returns the item in the array at the specified index
+NOTE: This returns by reference, not by value!
+*/
 template<class T>
 T& Vector<T>::operator[](int index){
     return data[index];
 }
 
+/*
+Assignment operator
+*/
 template<class T>
 Vector<T>& Vector<T>::operator=(Vector<T>& rhs){
     if(data) delete[] data;
@@ -139,6 +188,9 @@ Vector<T>& Vector<T>::operator=(Vector<T>& rhs){
     return *this;
 }
 
+/*
++= operator, wrapper for .add method
+*/
 template<class T>
 Vector<T>& Vector<T>::operator+=(T t){
     add(t);
@@ -146,6 +198,9 @@ Vector<T>& Vector<T>::operator+=(T t){
 }
 
 
+/*
+Stream insertion operator for printing vector
+*/
 template<class T>
 std::ostream& operator<<(std::ostream& os, Vector<T>& v){
     os << "[";
